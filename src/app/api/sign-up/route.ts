@@ -28,9 +28,9 @@ export async function POST(request: Request) {
         if (existingUserByEmail) {
             if (existingUserByEmail.isVerified) {
                 return Response.json({
-                    success: true,
+                    success: false,
                     message: "User already exist with this email"
-                }, { status: 201 })
+                }, { status: 400 })
             } else {
                 const hasedPassword = await bcrypt.hash(password, 10)
                 existingUserByEmail.password = hasedPassword
@@ -66,15 +66,15 @@ export async function POST(request: Request) {
 
         if (!emailResponse.success) {
             return Response.json({
-                success: true,
-                message: "User registered successfully. Please verify your email"
-            }, { status: 201 })
+                success: false,
+                message: emailResponse.message
+            }, { status: 500 })
         }
-
+        
         return Response.json({
-            success: false,
-            message: emailResponse.message
-        }, { status: 500 })
+            success: true,
+            message: "User registered successfully. Please verify your email"
+        }, { status: 201 })
 
     } catch (error) {
         console.error('Error reqistering user', error)
