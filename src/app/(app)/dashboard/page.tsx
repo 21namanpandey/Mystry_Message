@@ -118,7 +118,7 @@ const Dashboard = () => {
   };
 
   if (!session || !session.user) {
-    return <div>Please Login</div>;
+    return <div className="text-3xl justify-center items-center mx-auto my-auto font-bold">Please Login</div>;
   }
   const { username } = session?.user as User;
 
